@@ -47,13 +47,20 @@ class Effect {
             this.symbols[i] = new Symbol(i, 0, this.fontSize, this.canvasHeight);
         }
     }
+    resize(width, height){
+        this.canvasWidth = width;
+        this.canvasHeight = height;
+        this.columns = this.canvasWidth/this.fontSize;
+        this.symbols = [];
+        this.#initialize();
+    }
 }
 
 const effect = new Effect(canvas.width, canvas.height);
 
 // Use timeStamp and deltaTime to control Frame Rate
 let lastTime = 0;
-const fps = 60; // adjust fps to adjust speed
+const fps = 30; // adjust fps to adjust speed
 const nextFrame = 1000/fps;
 let timer = 0;
 
@@ -74,3 +81,10 @@ function animate(timeStamp){
     requestAnimationFrame(animate);
 }
 animate(0);
+
+// make mobile responsive
+window.addEventListener('resize', function(){
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    effect.resize(canvas.width, canvas.height);
+});
