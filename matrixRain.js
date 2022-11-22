@@ -52,11 +52,25 @@ class Effect {
 
 const effect = new Effect(canvas.width, canvas.height);
 
-function animate(){
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.05)'; // add black 5% opacity every animation loop
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.font = effect.fontSize + 'px monospace';
-    effect.symbols.forEach(symbol => symbol.draw(ctx));
+// Use timeStamp and deltaTime to control Frame Rate
+let lastTime = 0;
+const fps = 15; // adjust fps to adjust speed
+const nextFrame = 1000/fps;
+let timer = 0;
+
+function animate(timeStamp){
+    const deltaTime = timeStamp - lastTime;
+    lastTime = timeStamp;
+    if (timer > nextFrame){
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.05)'; // add black 5% opacity every animation loop
+        ctx.textAlign = 'center';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.font = effect.fontSize + 'px monospace';
+        effect.symbols.forEach(symbol => symbol.draw(ctx));
+        timer = 0;
+    } else {
+        timer += deltaTime;
+    }
     requestAnimationFrame(animate);
 }
-animate();
+animate(0);
