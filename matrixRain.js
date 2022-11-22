@@ -25,7 +25,7 @@ class Symbol {
         // charAt() takes single 'index' argument and returns a new string containing only that one character located at the specific offset of the string
         context.fillStyle = '#0aff0a';
         context.fillText(this.text, this.x*this.fontSize, this.y*this.fontSize);
-        if (this.y * this.fontSize > this.canvasHeight){ // if reach bottom of canvas
+        if ( this.y * this.fontSize > this.canvasHeight && Math.random() > 0.98 ){ // if reach bottom of canvas && randomize delay
             this.y = 0;
         } else { // else, move it down by 1
             this.y += 1;
@@ -53,6 +53,8 @@ class Effect {
 const effect = new Effect(canvas.width, canvas.height);
 
 function animate(){
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.05)'; // add black 5% opacity every animation loop
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.font = effect.fontSize + 'px monospace';
     effect.symbols.forEach(symbol => symbol.draw(ctx));
     requestAnimationFrame(animate);
