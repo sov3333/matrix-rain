@@ -23,7 +23,6 @@ class Symbol {
     draw(context){
         this.text = this.characters.charAt(Math.floor(Math.random() * this.characters.length)); 
         // charAt() takes single 'index' argument and returns a new string containing only that one character located at the specific offset of the string
-        context.fillStyle = '#0aff0a';
         context.fillText(this.text, this.x*this.fontSize, this.y*this.fontSize);
         if ( this.y * this.fontSize > this.canvasHeight && Math.random() > 0.98 ){ // if reach bottom of canvas && randomize delay
             this.y = 0;
@@ -54,7 +53,7 @@ const effect = new Effect(canvas.width, canvas.height);
 
 // Use timeStamp and deltaTime to control Frame Rate
 let lastTime = 0;
-const fps = 15; // adjust fps to adjust speed
+const fps = 60; // adjust fps to adjust speed
 const nextFrame = 1000/fps;
 let timer = 0;
 
@@ -65,6 +64,7 @@ function animate(timeStamp){
         ctx.fillStyle = 'rgba(0, 0, 0, 0.05)'; // add black 5% opacity every animation loop
         ctx.textAlign = 'center';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = '#0aff0a'; // optimize performance by running this only once animation loop instead of for every character drawn
         ctx.font = effect.fontSize + 'px monospace';
         effect.symbols.forEach(symbol => symbol.draw(ctx));
         timer = 0;
